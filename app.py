@@ -115,7 +115,7 @@ ss_list=['Moghbazar 132/33/11KV S/S','Moghbazar 33/11KV S/S','Green Road 33/11KV
 substation_choice = st.selectbox("Pick one Substation from Below",ss_list)
 st.markdown("""---""")
 df_show=df.query("Substation_Name==@substation_choice")
-st.write(df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","Difference","OMF","Consumption","Corrected_Consumption","NOCS"]])
+st.write(df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","Difference","OMF","Consumption","Corrected_Consumption","NOCS"]].astype(str))
 col1, col2, col3= st.columns(3)
 col1.write("Consumption : " + str(df_show["Consumption"].sum()))
 col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
@@ -128,7 +128,7 @@ nocs_list=['Motijheel','Khilgaon','Lalbag','Kazla','Postogola','Banglabazar','N.
 ]
 nocs_choice = st.selectbox("Pick one NOCS from Below",nocs_list)
 df_show=df.query("NOCS==@nocs_choice")
-st.write(df_show[["NOCS","Substation_Name","Feeder_Name","Consumption","Corrected_Consumption"]])
+st.write(df_show[["NOCS","Substation_Name","Feeder_Name","Consumption","Corrected_Consumption"]].astype(str))
 col1, col2= st.columns(2)
 col1.write("Consumption : " + str(df_show["Consumption"].sum()))
 col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
