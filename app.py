@@ -112,7 +112,7 @@ ss_list=['Moghbazar 132/33/11KV S/S','Moghbazar 33/11KV S/S','Green Road 33/11KV
 st.markdown("""---""")
 substation_choice = st.selectbox("Pick one Substation from Below",ss_list)
 st.markdown("""---""")
-df_show=df.query("Substation_Name==@substation_choice")
+df_show=df_selection.query("Substation_Name==@substation_choice")
 st.markdown("""---""")
 st.write(df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","Difference","OMF","Consumption","Corrected_Consumption","NOCS"]].astype(str))
 st.markdown("""---""")
