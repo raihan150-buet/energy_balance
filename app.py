@@ -74,9 +74,9 @@ fig_nocs_consumption.update_layout(
     xaxis=(dict(showgrid=False))
 )
 
-st.divider()
+st.markdown("""---""")
 st.plotly_chart(fig_nocs_consumption, use_container_width=True)
-st.divider()
+st.markdown("""---""")
 
 # ---- HIDE STREAMLIT STYLE ----
 hide_st_style = """
@@ -109,34 +109,32 @@ ss_list=['Moghbazar 132/33/11KV S/S','Moghbazar 33/11KV S/S','Green Road 33/11KV
          'New Fatullah 33/11 KV SS','P & T 33/11 KV SS','Motijheel 132/33 KV SS','Motijheel 33/11 KV SS (new)','Kazla 132/133 KV SS',
          'Kamalapur Railway 33/11 KV SS','Char Syedpur 132/33KV S/S','Char Syedpur 33/11 KV S/S New','Postogola 132/33 KV S/S'
 ]
-st.divider()
+st.markdown("""---""")
 substation_choice = st.selectbox("Pick one Substation from Below",ss_list)
-st.divider()
 st.markdown("""---""")
 df_show=df.query("Substation_Name==@substation_choice")
-st.divider()
+st.markdown("""---""")
 st.write(df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","Difference","OMF","Consumption","Corrected_Consumption","NOCS"]].astype(str))
-st.divider()
+st.markdown("""---""")
 col1, col2, col3= st.columns(3)
-st.divider()
+st.markdown("""---""")
 col1.write("Consumption : " + str(df_show["Consumption"].sum()))
 col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
 col3.write("Substation Loss: "+str(((df_show["Corrected_Consumption"].sum())-(df_show["Consumption"].sum()))/(df_show["Consumption"].sum())*100)+"%")
-st.divider()
 st.markdown("""---""")
 nocs_list=['Motijheel','Khilgaon','Lalbag','Kazla','Postogola','Banglabazar','N.Gonj (West)','Siddirgonj','Bashabo','Narinda',
            'Maniknagar','Jurain','Shyampur','Swamibag','Bangshal','N.Gonj (East)','Fatullah','Mugdapara','Tejgaon','Satmasjid',
            'Paribag','Kakrail','Moghbazar','Dhanmondi','Ramna','Shyamoli','Shere b.nagar','Rajarbag','Jigatola','Azimpur','Demra',
            'Matuail','Sytalakhya','Kamrangirchar','Banosree','Adabor'
 ]
-st.divider()
+st.markdown("""---""")
 nocs_choice = st.selectbox("Pick one NOCS from Below",nocs_list)
 df_show=df.query("NOCS==@nocs_choice")
 st.write(df_show[["NOCS","Substation_Name","Feeder_Name","Consumption","Corrected_Consumption"]].astype(str))
-st.divider()
+st.markdown("""---""")
 col1, col2= st.columns(2)
-st.divider()
+st.markdown("""---""")
 col1.write("Consumption : " + str(df_show["Consumption"].sum()))
 col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
-st.divider()
+st.markdown("""---""")
 
