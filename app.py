@@ -44,8 +44,8 @@ st.title(":bar_chart: Energy Balance Dashboard")
 st.markdown("##")
 
 # TOP KPI's
-df_selection["Consumption"]=int(df_selection["Consumption"])
-df_selection["Corrected_Consumption"]=int(df_selection["Corrected_Consumption"])
+df_selection["Consumption"]=df_selection["Consumption"].astype(int)
+df_selection["Corrected_Consumption"]=int(df_selection["Corrected_Consumption"]).astype(int)
 consumption = df_selection["Consumption"].sum()
 consumption_corrected = df_selection["Corrected_Consumption"].sum()
 
