@@ -19,7 +19,7 @@ def get_data_from_excel():
 
     return df
 
-df = get_data_from_excel()
+df_selection = get_data_from_excel()
 
 # # ---- SIDEBAR ----
 # st.sidebar.header("Please Filter Here:")
@@ -36,8 +36,6 @@ df = get_data_from_excel()
 # )
 
 
-df_selection = df.query(
-    "NOCS == @nocs & Substation_Name ==@substation")
 
 # ---- MAINPAGE ----
 st.title(":bar_chart: Energy Balance Dashboard")
@@ -76,8 +74,9 @@ fig_nocs_consumption.update_layout(
     xaxis=(dict(showgrid=False))
 )
 
-
+st.divider()
 st.plotly_chart(fig_nocs_consumption, use_container_width=True)
+st.divider()
 
 # ---- HIDE STREAMLIT STYLE ----
 hide_st_style = """
@@ -110,24 +109,34 @@ ss_list=['Moghbazar 132/33/11KV S/S','Moghbazar 33/11KV S/S','Green Road 33/11KV
          'New Fatullah 33/11 KV SS','P & T 33/11 KV SS','Motijheel 132/33 KV SS','Motijheel 33/11 KV SS (new)','Kazla 132/133 KV SS',
          'Kamalapur Railway 33/11 KV SS','Char Syedpur 132/33KV S/S','Char Syedpur 33/11 KV S/S New','Postogola 132/33 KV S/S'
 ]
+st.divider()
 substation_choice = st.selectbox("Pick one Substation from Below",ss_list)
+st.divider()
 st.markdown("""---""")
 df_show=df.query("Substation_Name==@substation_choice")
+st.divider()
 st.write(df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","Difference","OMF","Consumption","Corrected_Consumption","NOCS"]].astype(str))
+st.divider()
 col1, col2, col3= st.columns(3)
+st.divider()
 col1.write("Consumption : " + str(df_show["Consumption"].sum()))
 col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
 col3.write("Substation Loss: "+str(((df_show["Corrected_Consumption"].sum())-(df_show["Consumption"].sum()))/(df_show["Consumption"].sum())*100)+"%")
+st.divider()
 st.markdown("""---""")
 nocs_list=['Motijheel','Khilgaon','Lalbag','Kazla','Postogola','Banglabazar','N.Gonj (West)','Siddirgonj','Bashabo','Narinda',
            'Maniknagar','Jurain','Shyampur','Swamibag','Bangshal','N.Gonj (East)','Fatullah','Mugdapara','Tejgaon','Satmasjid',
            'Paribag','Kakrail','Moghbazar','Dhanmondi','Ramna','Shyamoli','Shere b.nagar','Rajarbag','Jigatola','Azimpur','Demra',
            'Matuail','Sytalakhya','Kamrangirchar','Banosree','Adabor'
 ]
+st.divider()
 nocs_choice = st.selectbox("Pick one NOCS from Below",nocs_list)
 df_show=df.query("NOCS==@nocs_choice")
 st.write(df_show[["NOCS","Substation_Name","Feeder_Name","Consumption","Corrected_Consumption"]].astype(str))
+st.divider()
 col1, col2= st.columns(2)
+st.divider()
 col1.write("Consumption : " + str(df_show["Consumption"].sum()))
 col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
+st.divider()
 
