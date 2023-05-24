@@ -61,7 +61,7 @@ st.markdown("""---""")
 
 
 consumption_by_nocs = (
-    df_selection.groupby(by=["NOCS"]).sum()[["Corrected_Consumption"]]
+    df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum()
 )
 fig_nocs_consumption = px.bar(
     consumption_by_nocs,
