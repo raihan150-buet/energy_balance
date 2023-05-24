@@ -129,7 +129,7 @@ nocs_list=['Motijheel','Khilgaon','Lalbag','Kazla','Postogola','Banglabazar','N.
 ]
 st.markdown("""---""")
 nocs_choice = st.selectbox("Pick one NOCS from Below",nocs_list)
-df_show=df.query("NOCS==@nocs_choice")
+df_show=df_selection.query("NOCS==@nocs_choice")
 st.write(df_show[["NOCS","Substation_Name","Feeder_Name","Consumption","Corrected_Consumption"]].astype(str))
 st.markdown("""---""")
 col1, col2= st.columns(2)
