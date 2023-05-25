@@ -19,25 +19,25 @@ def get_data_from_excel():
 
     return df
 
-df = get_data_from_excel()
+df_selection = get_data_from_excel()
 
-# ---- SIDEBAR ----
-st.sidebar.header("Please Filter Here:")
-nocs = st.sidebar.multiselect(
-    "Select the NOCS:",
-    options=df["NOCS"].unique(),
-    default=df["NOCS"].unique()
-)
+# # ---- SIDEBAR ----
+# st.sidebar.header("Please Filter Here:")
+# nocs = st.sidebar.multiselect(
+#     "Select the NOCS:",
+#     options=df["NOCS"].unique(),
+#     default=df["NOCS"].unique()
+# )
 
-substation = st.sidebar.multiselect(
-    "Select the Substation Name:",
-    options=df["Substation_Name"].unique(),
-    default=df["Substation_Name"].unique(),
-)
+# substation = st.sidebar.multiselect(
+#     "Select the Substation Name:",
+#     options=df["Substation_Name"].unique(),
+#     default=df["Substation_Name"].unique(),
+# )
 
 
-df_selection = df.query(
-    "NOCS == @nocs & Substation_Name ==@substation")
+# df_selection = df.query(
+#     "NOCS == @nocs & Substation_Name ==@substation")
 
 # ---- MAINPAGE ----
 st.title(":bar_chart: Energy Balance Dashboard")
@@ -63,18 +63,20 @@ consumption_by_nocs = (
 )
 fig_nocs_consumption = px.bar(
     consumption_by_nocs,
-    x="Corrected_Consumption",
-    y=consumption_by_nocs.index,
-    orientation="h",
+    y="Corrected_Consumption",
+    x=consumption_by_nocs.index,
+    labels = "Corrected_Consumption",
+    orientation = "v",
     title="<b>Consumption by NOCS</b>",
-    color_discrete_sequence=["#0083B8"] * len(consumption_by_nocs),
-    template="plotly_white",
+    color="Corrected_Consumption",
+    template="plotly_dark",
+    height=600
 )
+
 fig_nocs_consumption.update_layout(
     plot_bgcolor="rgba(0,0,0,0)",
     xaxis=(dict(showgrid=False))
 )
-
 
 
 st.plotly_chart(fig_nocs_consumption, use_container_width=True)
@@ -90,8 +92,8 @@ hide_st_style = """
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
-st.dataframe(df_selection.pivot_table(index=["NOCS"], values=["Consumption","Corrected_Consumption"]))
-st.dataframe(df_selection.pivot_table(index=["Substation_Name"], values=["Consumption","Corrected_Consumption"]))
+# st.dataframe(df_selection.pivot_table(index=["NOCS"], values=["Consumption","Corrected_Consumption"]))
+# st.dataframe(df_selection.pivot_table(index=["Substation_Name"], values=["Consumption","Corrected_Consumption"]))
 
 ss_list=['Moghbazar 132/33/11KV S/S','Moghbazar 33/11KV S/S','Green Road 33/11KV S/S','Lalmatia  33/11KV S/S',
          'Tejgoan 33/11KV S/S','T&T 33/11 KV','Dhanmondi 132/33/11KV S/S','Dhanmondi 33/11KV S/S','Kawranbazar  33/11KV S/S',
@@ -114,12 +116,47 @@ ss_list=['Moghbazar 132/33/11KV S/S','Moghbazar 33/11KV S/S','Green Road 33/11KV
 ]
 substation_choice = st.selectbox("Pick one Substation from Below",ss_list)
 st.markdown("""---""")
-df_show=df.query("Substation_Name==@substation_choice")
-st.write(df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","Difference","OMF","Consumption","Corrected_Consumption","NOCS"]])
-col1, col2, col3= st.columns(3)
-col1.write("Consumption : " + str(df_show["Consumption"].sum()))
-col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
-col3.write("Substation Loss: "+str(((df_show["Corrected_Consumption"].sum())-(df_show["Consumption"].sum()))/(df_show["Consumption"].sum())*100)+"%")
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    tableview = st.button("Click to Show Substation-wise Table")
+with col2:
+    tablehide = st.button("Click to Hide Substation-wise Table")
+with col3:
+    graphview = st.button("Click to Show Substation-wise Graph")
+with col4:
+    graphhide = st.button("Click to Hide Substation-wise Graph")
+if(tableview):
+    df_show=df_selection.query("Substation_Name==@substation_choice")
+    st.write(df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","Difference","OMF","Consumption","Corrected_Consumption","NOCS"]])
+    col1, col2, col3= st.columns(3)
+    col1.write("Consumption : " + str(df_show["Consumption"].sum()))
+    col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
+    col3.write("Substation Loss: "+str(((df_show["Corrected_Consumption"].sum())-(df_show["Consumption"].sum()))/(df_show["Consumption"].sum())*100)+"%")
+elif(tablehide): st.markdown("---")
+elif(graphview):
+    consumption_by_substation=df_selection.query("Substation_Name==@substation_choice")[["Feeder_Name","Corrected_Consumption","NOCS"]]
+    fig_nocs_ss = px.bar(
+    consumption_by_substation,
+    y="Corrected_Consumption",
+    x="Feeder_Name",
+    labels = "Corrected_Consumption",
+    orientation = "v",
+    title="<b>Feeder Wise Consumption</b>",
+    color="NOCS",
+    template="plotly_dark",
+    height=600
+    )
+
+    fig_nocs_ss.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=(dict(showgrid=False))
+    )
+
+
+    st.plotly_chart(fig_nocs_ss, use_container_width=True)
+
+elif(graphhide): st.markdown("---")
+
 st.markdown("""---""")
 nocs_list=['Motijheel','Khilgaon','Lalbag','Kazla','Postogola','Banglabazar','N.Gonj (West)','Siddirgonj','Bashabo','Narinda',
            'Maniknagar','Jurain','Shyampur','Swamibag','Bangshal','N.Gonj (East)','Fatullah','Mugdapara','Tejgaon','Satmasjid',
@@ -127,8 +164,42 @@ nocs_list=['Motijheel','Khilgaon','Lalbag','Kazla','Postogola','Banglabazar','N.
            'Matuail','Sytalakhya','Kamrangirchar','Banosree','Adabor'
 ]
 nocs_choice = st.selectbox("Pick one NOCS from Below",nocs_list)
-df_show=df.query("NOCS==@nocs_choice")
-st.write(df_show[["NOCS","Substation_Name","Feeder_Name","Consumption","Corrected_Consumption"]])
-col1, col2= st.columns(2)
-col1.write("Consumption : " + str(df_show["Consumption"].sum()))
-col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    tableview2 = st.button("Click to Show NOCS-wise Table")
+with col2:
+    tablehide2 = st.button("Click to Hide NOCS-wise Table ")
+with col3:
+    graphview2 = st.button("Click to Show NOCS-wise Graph ")
+with col4:
+    graphhide2 = st.button("Click to Hide NOCS-wise Graph ")
+if(tableview2):
+    df_show=df_selection.query("NOCS==@nocs_choice")
+    st.write(df_show[["NOCS","Substation_Name","Feeder_Name","Consumption","Corrected_Consumption"]])
+    col1, col2= st.columns(2)
+    col1.write("Consumption : " + str(df_show["Consumption"].sum()))
+    col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
+elif(tablehide2): st.markdown("---")
+elif(graphview2):
+    consumption_by_feeder=df_selection.query("NOCS==@nocs_choice")[["Feeder_Name","Corrected_Consumption"]]
+    fig_nocs_feeder = px.bar(
+    consumption_by_feeder,
+    y="Corrected_Consumption",
+    x="Feeder_Name",
+    labels = "Corrected_Consumption",
+    orientation = "v",
+    title="<b>Feeder Wise Consumption</b>",
+    color="Corrected_Consumption",
+    template="plotly_dark",
+    height=600
+    )
+
+    fig_nocs_feeder.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=(dict(showgrid=False))
+    )
+
+
+    st.plotly_chart(fig_nocs_feeder, use_container_width=True)
+
+elif(graphhide2): st.markdown("---")
