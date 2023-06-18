@@ -9,12 +9,12 @@ st.set_page_config(page_title="Energy Balance Software", page_icon=":bar_chart:"
 @st.cache
 def get_data_from_excel():
     df = pd.read_excel(
-        io="EB.xlsx",
+        io="NOCS_Final_May_2023.xlsx",
         engine="openpyxl",
         sheet_name="Linked_11KV",
         skiprows=0,
         usecols="B:O",
-        nrows=1117,
+        nrows=1127,
     )
 
     return df
