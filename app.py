@@ -11,7 +11,7 @@ def get_data_from_excel():
     df = pd.read_excel(
         io="EB.xlsx",
         engine="openpyxl",
-        sheet_name="Linked_11KV",
+        sheet_name="Linked_11 KV",
         skiprows=0,
         usecols="B:O",
         nrows=1127,
