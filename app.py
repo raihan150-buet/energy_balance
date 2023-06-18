@@ -9,7 +9,7 @@ st.set_page_config(page_title="Energy Balance Software", page_icon=":bar_chart:"
 @st.cache
 def get_data_from_excel():
     df = pd.read_excel(
-        io="NOCS_Final_May_2023.xlsx",
+        io="EB.xlsx",
         engine="openpyxl",
         sheet_name="Linked_11KV",
         skiprows=0,
