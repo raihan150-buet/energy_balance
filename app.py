@@ -29,19 +29,18 @@ st.title(":bar_chart: Energy Balance Dashboard")
 st.markdown("##")
 
 # TOP KPI's
-consumption = int(df_selection["Consumption"].sum())
-consumption_corrected = int(df_selection["Corrected_Consumption"].sum())
+# consumption = int(df_selection["Consumption"].sum())
+# consumption_corrected = int(df_selection["Corrected_Consumption"].sum())
 
-left_column, right_column = st.columns(2)
-with left_column:
-    st.subheader("Total Consumption:")
-    st.subheader(f"Unit {consumption:,}")
-with right_column:
-    st.subheader("Total Corrected Consumption:")
-    st.subheader(f"Unit {consumption_corrected}")
+# left_column, right_column = st.columns(2)
+# with left_column:
+#     st.subheader("Total Consumption:")
+#     st.subheader(f"Unit {consumption:,}")
+# with right_column:
+#     st.subheader("Total Corrected Consumption:")
+#     st.subheader(f"Unit {consumption_corrected}")
 
-st.markdown("""---""")
-
+st.markdown("""----""")
 consumption_by_nocs = (
     df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()[1:36]
 )
@@ -58,6 +57,7 @@ summary_tree = px.treemap(consumption_by_nocs,
                  )
 
 summary_tree.update_layout(
+    font_size = 15
     title_font_size = 50, 
     title_font_family ='Arial',
 )
@@ -302,4 +302,10 @@ elif(graphview2):
 
 
 elif(graphhide2): st.markdown("---")
+
+
+html_about ="
+      <h3>Developed By</h3>
+      <p>This Web-Application has been developed by Abu Md. Raihan, Sub-Divisional Engineer, Tariff & Energy Audit, Dhaka Power Distribution Company (Ltd.) </p>"
+st.markdown(html_about, unsafe_allow_html=True)
 
