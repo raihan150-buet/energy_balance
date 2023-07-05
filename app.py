@@ -1,7 +1,8 @@
 import pandas as pd  # pip install pandas openpyxl
 import plotly.express as px  # pip install plotly-express
 import streamlit as st  # pip install streamlit
-
+from fpdf import FPDF
+import base64
 
 st.set_page_config(page_title="Energy Balance Software", page_icon=":bar_chart:", layout="wide")
 
@@ -11,7 +12,7 @@ def get_data_from_excel():
     df = pd.read_excel(
         io="EB.xlsx",
         engine="openpyxl",
-        sheet_name="Linked_11 KV",
+        sheet_name="Linked_11KV",
         skiprows=0,
         usecols="B:O",
         nrows=1127,
@@ -21,23 +22,7 @@ def get_data_from_excel():
 
 df_selection = get_data_from_excel()
 
-# # ---- SIDEBAR ----
-# st.sidebar.header("Please Filter Here:")
-# nocs = st.sidebar.multiselect(
-#     "Select the NOCS:",
-#     options=df["NOCS"].unique(),
-#     default=df["NOCS"].unique()
-# )
 
-# substation = st.sidebar.multiselect(
-#     "Select the Substation Name:",
-#     options=df["Substation_Name"].unique(),
-#     default=df["Substation_Name"].unique(),
-# )
-
-
-# df_selection = df.query(
-#     "NOCS == @nocs & Substation_Name ==@substation")
 
 # ---- MAINPAGE ----
 st.title(":bar_chart: Energy Balance Dashboard")
@@ -57,15 +42,35 @@ with right_column:
 
 st.markdown("""---""")
 
-
 consumption_by_nocs = (
-    df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum()
+    df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()[1:36]
 )
+consumption_by_nocs["Corrected_Consumption"]=consumption_by_nocs['Corrected_Consumption'].astype(int)
+#-----------------------TreeMap-------------------#
+summary_tree = px.treemap(consumption_by_nocs,
+                 path=consumption_by_nocs.columns,
+                 values=consumption_by_nocs["Corrected_Consumption"],
+                 color =consumption_by_nocs["NOCS"],
+                 color_continuous_scale = ['red','yellow','green'],
+                 title='Summary of Import',
+                 width = 1000,
+                 height = 700,
+                 )
+
+summary_tree.update_layout(
+    title_font_size = 50, 
+    title_font_family ='Arial',
+)
+
+st.plotly_chart(summary_tree, use_container_width=True)
+
+#--------------------------------------------#
+
 fig_nocs_consumption = px.bar(
     consumption_by_nocs,
-    y="Corrected_Consumption",
-    x=consumption_by_nocs.index,
-    labels = "Corrected_Consumption",
+    y=consumption_by_nocs["Corrected_Consumption"],
+    x=consumption_by_nocs["NOCS"],
+    labels = consumption_by_nocs["Corrected_Consumption"],
     orientation = "v",
     title="<b>Consumption by NOCS</b>",
     color="Corrected_Consumption",
@@ -80,8 +85,25 @@ fig_nocs_consumption.update_layout(
 
 
 st.plotly_chart(fig_nocs_consumption, use_container_width=True)
+ss_wise = df_selection.groupby(['Substation_Name','NOCS'])['Corrected_Consumption'].sum().reset_index()
+ss_wise = ss_wise[ss_wise['Corrected_Consumption']!=0]
+ss_wise['Corrected_Consumption']=ss_wise['Corrected_Consumption'].astype(int)
+summary_sb = px.treemap(ss_wise,
+    path=['Substation_Name','NOCS','Corrected_Consumption'],
+    values=ss_wise["Corrected_Consumption"],
+    color =ss_wise["Corrected_Consumption"] ,
+    color_continuous_scale=['Green','Violet','Yellow','Red'],
+    title='Summary of Import',
+    width = 800,
+    height = 1000
+)
+summary_sb.update_layout(
+    title_font_size = 50, 
+    title_font_family ='Arial'
+)
 
-
+st.plotly_chart(summary_sb, use_container_width=True)
+ 
 # ---- HIDE STREAMLIT STYLE ----
 hide_st_style = """
             <style>
@@ -91,9 +113,6 @@ hide_st_style = """
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
-
-# st.dataframe(df_selection.pivot_table(index=["NOCS"], values=["Consumption","Corrected_Consumption"]))
-# st.dataframe(df_selection.pivot_table(index=["Substation_Name"], values=["Consumption","Corrected_Consumption"]))
 
 ss_list=['Moghbazar 132/33/11KV S/S','Moghbazar 33/11KV S/S','Green Road 33/11KV S/S','Lalmatia  33/11KV S/S',
          'Tejgoan 33/11KV S/S','T&T 33/11 KV','Dhanmondi 132/33/11KV S/S','Dhanmondi 33/11KV S/S','Kawranbazar  33/11KV S/S',
@@ -114,6 +133,47 @@ ss_list=['Moghbazar 132/33/11KV S/S','Moghbazar 33/11KV S/S','Green Road 33/11KV
          'New Fatullah 33/11 KV SS','P & T 33/11 KV SS','Motijheel 132/33 KV SS','Motijheel 33/11 KV SS (new)','Kazla 132/133 KV SS',
          'Kamalapur Railway 33/11 KV SS','Char Syedpur 132/33KV S/S','Char Syedpur 33/11 KV S/S New','Postogola 132/33 KV S/S'
 ]
+### Reporting Engine Creation
+def create_download_link(val, filename):
+    b64 = base64.b64encode(val)  # val looks like b'...'
+    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="{filename}.pdf">Download Report</a>'
+
+def output_df_to_pdf(pdf, df):
+    # A cell is a rectangular area, possibly framed, which contains some text
+    # Set the width and height of cell
+    table_cell_width = 35
+    table_cell_height = 6
+    # Select a font as Arial, bold, 8
+    pdf.set_font('Arial', 'B', 8)
+    
+    # Loop over to print column names
+    cols = df.columns
+    for col in cols:
+        pdf.cell(table_cell_width, table_cell_height, col, align='C', border=1)
+        
+    # Line break
+    pdf.ln(table_cell_height)
+    # Select a font as Arial, regular, 10
+    pdf.set_font('Arial', '', 7)
+    # Loop over to print each data in the table
+    for row in df.itertuples():
+        for col in cols:
+            value = str(getattr(row, col))
+            pdf.cell(table_cell_width, table_cell_height, value, align='C', border=1)
+        pdf.ln(table_cell_height)
+
+def export_as_pdf(report_text,data):
+    pdf = FPDF('landscape','mm',"A4")
+    pdf.add_page()
+    pdf.set_font('Arial', 'B', 16)
+    pdf.cell(0, 10, txt=report_text, align="C")
+    pdf.ln()
+    output_df_to_pdf(pdf,data)
+    
+    html = create_download_link(pdf.output(dest="S").encode("latin-1"), "Report")
+
+    return(st.markdown(html, unsafe_allow_html=True))
+
 substation_choice = st.selectbox("Pick one Substation from Below",ss_list)
 st.markdown("""---""")
 col1, col2, col3, col4 = st.columns(4)
@@ -132,6 +192,8 @@ if(tableview):
     col1.write("Consumption : " + str(df_show["Consumption"].sum()))
     col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
     col3.write("Substation Loss: "+str(((df_show["Corrected_Consumption"].sum())-(df_show["Consumption"].sum()))/(df_show["Consumption"].sum())*100)+"%")
+    export_as_pdf("Substation Name: "+substation_choice,df_show[["Feeder_Name","CF","Opening_Reading","Closing_Reading","OMF","Consumption","Corrected_Consumption","NOCS"]])
+
 elif(tablehide): st.markdown("---")
 elif(graphview):
     consumption_by_substation=df_selection.query("Substation_Name==@substation_choice")[["Feeder_Name","Corrected_Consumption","NOCS"]]
@@ -154,6 +216,23 @@ elif(graphview):
 
 
     st.plotly_chart(fig_nocs_ss, use_container_width=True)
+    temp_pt =consumption_by_substation[consumption_by_substation['Corrected_Consumption']!=0]
+    temp_pt['Corrected_Consumption']=temp_pt['Corrected_Consumption'].astype(int)
+    summary_sb = px.sunburst(temp_pt,
+        path=['NOCS','Feeder_Name','Corrected_Consumption'],
+        values=temp_pt["Corrected_Consumption"],
+        color =temp_pt["NOCS"],
+        color_continuous_scale = ['red','yellow','green'],
+        title='Feeder-wise Consumption',
+        width=1000,
+        height= 600
+    )
+    summary_sb.update_layout(
+        title_font_size = 20, 
+        title_font_family ='Arial'
+    )
+
+    st.plotly_chart(summary_sb, use_container_width=True)
 
 elif(graphhide): st.markdown("---")
 
@@ -179,9 +258,10 @@ if(tableview2):
     col1, col2= st.columns(2)
     col1.write("Consumption : " + str(df_show["Consumption"].sum()))
     col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
+    export_as_pdf("NOCS Name: "+nocs_choice,df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","OMF","Consumption","Corrected_Consumption"]])
 elif(tablehide2): st.markdown("---")
 elif(graphview2):
-    consumption_by_feeder=df_selection.query("NOCS==@nocs_choice")[["Feeder_Name","Corrected_Consumption"]]
+    consumption_by_feeder=df_selection.query("NOCS==@nocs_choice")[["Substation_Name","Feeder_Name","Corrected_Consumption"]]
     fig_nocs_feeder = px.bar(
     consumption_by_feeder,
     y="Corrected_Consumption",
@@ -202,4 +282,24 @@ elif(graphview2):
 
     st.plotly_chart(fig_nocs_feeder, use_container_width=True)
 
+    temp_pt =consumption_by_feeder[consumption_by_feeder['Corrected_Consumption']!=0]
+    temp_pt['Corrected_Consumption']=temp_pt['Corrected_Consumption'].astype(int)
+    summary_sb = px.sunburst(temp_pt,
+        path=['Substation_Name','Feeder_Name','Corrected_Consumption'],
+        values=temp_pt["Corrected_Consumption"],
+        color =temp_pt["Substation_Name"],
+        color_continuous_scale = ['red','yellow','green'],
+        title='Feeder-wise Consumption',
+        width=1500,
+        height= 800
+    )
+    summary_sb.update_layout(
+        title_font_size = 20, 
+        title_font_family ='Arial'
+    )
+
+    st.plotly_chart(summary_sb, use_container_width=True)
+
+
 elif(graphhide2): st.markdown("---")
+
