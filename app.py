@@ -57,7 +57,7 @@ summary_tree = px.treemap(consumption_by_nocs,
                  )
 
 summary_tree.update_layout(
-    font_size = 15
+    font_size = 15,
     title_font_size = 50, 
     title_font_family ='Arial',
 )
