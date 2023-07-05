@@ -305,7 +305,9 @@ elif(graphhide2): st.markdown("---")
 
 
 html_about ="""
-      <h3>Developed By</h3>
+      <br>
+      <br>
+      <h3><center>Developed By</center></h3>
       <p>This Web-Application has been developed by Abu Md. Raihan, Sub-Divisional Engineer, Tariff & Energy Audit, Dhaka Power Distribution Company (Ltd.) </p>"""
 st.markdown(html_about, unsafe_allow_html=True)
 
