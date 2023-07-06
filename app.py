@@ -21,9 +21,7 @@ def get_data_from_excel():
     return df
 
 df_selection = get_data_from_excel()
-#--------------Data Preprocessing--------------------#
-df_selection["Consumption"]= df_selection["Consumption"].astype(int) #Converting to Integer
-df_selection["Corrected_Consumption"]= df_selection["Corrected_Consumption"].astype(int)  #Converting to Integer
+
 
 
 # ---- MAINPAGE ----
@@ -46,7 +44,7 @@ st.markdown("""----""")
 consumption_by_nocs = (
     df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()[1:36]
 )
-
+consumption_by_nocs["Corrected_Consumption"]=consumption_by_nocs['Corrected_Consumption'].astype(int)
 #-----------------------TreeMap-------------------#
 summary_tree = px.treemap(consumption_by_nocs,
                  path=consumption_by_nocs.columns,
@@ -59,14 +57,14 @@ summary_tree = px.treemap(consumption_by_nocs,
                  )
 
 summary_tree.update_layout(
-    font_size = 20,
+    font_size = 15,
     title_font_size = 50, 
     title_font_family ='Arial',
 )
 
 st.plotly_chart(summary_tree, use_container_width=True)
-st.markdown("##")
-#----------------Bar Chart---------#
+
+#--------------------------------------------#
 
 fig_nocs_consumption = px.bar(
     consumption_by_nocs,
@@ -87,10 +85,9 @@ fig_nocs_consumption.update_layout(
 
 
 st.plotly_chart(fig_nocs_consumption, use_container_width=True)
-st.markdown("##")
-#-------------------------Substation-Wise-----Treemap----------------------#
 ss_wise = df_selection.groupby(['Substation_Name','NOCS'])['Corrected_Consumption'].sum().reset_index()
 ss_wise = ss_wise[ss_wise['Corrected_Consumption']!=0]
+ss_wise['Corrected_Consumption']=ss_wise['Corrected_Consumption'].astype(int)
 summary_sb = px.treemap(ss_wise,
     path=['Substation_Name','NOCS','Corrected_Consumption'],
     values=ss_wise["Corrected_Consumption"],
@@ -313,4 +310,3 @@ html_about ="""
       <h3><center>Developed By</center></h3>
       <p>This Web-Application has been developed by Abu Md. Raihan, Sub-Divisional Engineer, Tariff & Energy Audit, Dhaka Power Distribution Company (Ltd.) </p>"""
 st.markdown(html_about, unsafe_allow_html=True)
-
