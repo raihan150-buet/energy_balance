@@ -87,7 +87,7 @@ fig_nocs_consumption.update_layout(
     xaxis=(dict(showgrid=False))
 )
 
-fig_nocs_consumption.update_traces(textfont_size=15, textangle=180, textposition="inside", cliponaxis=False)
+fig_nocs_consumption.update_traces(textfont_size=25, textangle=0, textposition="inside", cliponaxis=False)
 
 
 st.plotly_chart(fig_nocs_consumption, use_container_width=True)
