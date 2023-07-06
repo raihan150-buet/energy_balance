@@ -80,6 +80,9 @@ fig_nocs_consumption = px.bar(
 )
 
 fig_nocs_consumption.update_layout(
+    font_size = 15,
+    title_font_size = 50, 
+    title_font_family ='Arial',
     plot_bgcolor="rgba(0,0,0,0)",
     xaxis=(dict(showgrid=False))
 )
