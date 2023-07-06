@@ -75,6 +75,7 @@ fig_nocs_consumption = px.bar(
     title="<b>Consumption by NOCS</b>",
     color="Corrected_Consumption",
     template="plotly_dark",
+    text_auto = str(consumption_by_nocs["Corrected_Consumption"]/1000000),
     height=600
 )
 
