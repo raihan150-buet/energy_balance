@@ -75,7 +75,7 @@ fig_nocs_consumption = px.bar(
     title="<b>Consumption by NOCS</b>",
     color="Corrected_Consumption",
     template="plotly_dark",
-    text_auto = ".2s",
+    text_auto = ".4s",
     height=600
 )
 
@@ -87,7 +87,7 @@ fig_nocs_consumption.update_layout(
     xaxis=(dict(showgrid=False))
 )
 
-fig_nocs_consumption.update_traces(textfont_size=25, textangle=0, textposition="inside", cliponaxis=False)
+fig_nocs_consumption.update_traces(textfont_size=35, textangle=90, textposition="inside", cliponaxis=False)
 
 
 st.plotly_chart(fig_nocs_consumption, use_container_width=True)
