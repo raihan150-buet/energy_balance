@@ -87,6 +87,8 @@ fig_nocs_consumption.update_layout(
     xaxis=(dict(showgrid=False))
 )
 
+fig_nocs_consumption.update_traces(textfont_size=15, textangle=180, textposition="inside", cliponaxis=False)
+
 
 st.plotly_chart(fig_nocs_consumption, use_container_width=True)
 ss_wise = df_selection.groupby(['Substation_Name','NOCS'])['Corrected_Consumption'].sum().reset_index()
