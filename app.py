@@ -15,7 +15,7 @@ def get_data_from_excel():
         sheet_name="Linked_11KV",
         skiprows=0,
         usecols="B:O",
-        nrows=1157,
+        nrows=1171,
     )
 
     return df
@@ -30,15 +30,14 @@ st.markdown("##")
 
 # TOP KPI's
 # consumption = int(df_selection["Consumption"].sum())
-# consumption_corrected = int(df_selection["Corrected_Consumption"].sum())
+consumption_corrected = int(df_selection["Corrected_Consumption"].sum())
 
-# left_column, right_column = st.columns(2)
-# with left_column:
-#     st.subheader("Total Consumption:")
+left_column, right_column = st.columns(2)
+with left_column:
+    st.subheader("Total Corrected Consumption:")
 #     st.subheader(f"Unit {consumption:,}")
-# with right_column:
-#     st.subheader("Total Corrected Consumption:")
-#     st.subheader(f"Unit {consumption_corrected}")
+with right_column:
+    st.subheader(f"Unit {consumption_corrected}")
 
 st.markdown("""----""")
 consumption_by_nocs = (
@@ -203,6 +202,24 @@ if(tableview):
 elif(tablehide): st.markdown("---")
 elif(graphview):
     consumption_by_substation=df_selection.query("Substation_Name==@substation_choice")[["Feeder_Name","Corrected_Consumption","NOCS"]]
+    temp_pt =consumption_by_substation[consumption_by_substation['Corrected_Consumption']!=0]
+    temp_pt['Corrected_Consumption']=temp_pt['Corrected_Consumption'].astype(int)
+    summary_sb = px.sunburst(temp_pt,
+        path=['NOCS','Feeder_Name','Corrected_Consumption'],
+        values=temp_pt["Corrected_Consumption"],
+        color =temp_pt["NOCS"],
+        color_continuous_scale = ['red','yellow','green'],
+        title='Feeder-wise Consumption',
+        width=1000,
+        height= 600
+    )
+    summary_sb.update_layout(
+        title_font_size = 20, 
+        title_font_family ='Arial'
+    )
+
+    st.plotly_chart(summary_sb, use_container_width=True)
+    
     fig_nocs_ss = px.bar(
     consumption_by_substation,
     y="Corrected_Consumption",
@@ -222,23 +239,7 @@ elif(graphview):
 
 
     st.plotly_chart(fig_nocs_ss, use_container_width=True)
-    temp_pt =consumption_by_substation[consumption_by_substation['Corrected_Consumption']!=0]
-    temp_pt['Corrected_Consumption']=temp_pt['Corrected_Consumption'].astype(int)
-    summary_sb = px.sunburst(temp_pt,
-        path=['NOCS','Feeder_Name','Corrected_Consumption'],
-        values=temp_pt["Corrected_Consumption"],
-        color =temp_pt["NOCS"],
-        color_continuous_scale = ['red','yellow','green'],
-        title='Feeder-wise Consumption',
-        width=1000,
-        height= 600
-    )
-    summary_sb.update_layout(
-        title_font_size = 20, 
-        title_font_family ='Arial'
-    )
-
-    st.plotly_chart(summary_sb, use_container_width=True)
+    
 
 elif(graphhide): st.markdown("---")
 
@@ -268,26 +269,6 @@ if(tableview2):
 elif(tablehide2): st.markdown("---")
 elif(graphview2):
     consumption_by_feeder=df_selection.query("NOCS==@nocs_choice")[["Substation_Name","Feeder_Name","Corrected_Consumption"]]
-    fig_nocs_feeder = px.bar(
-    consumption_by_feeder,
-    y="Corrected_Consumption",
-    x="Feeder_Name",
-    labels = "Corrected_Consumption",
-    orientation = "v",
-    title="<b>Feeder Wise Consumption</b>",
-    color="Corrected_Consumption",
-    template="plotly_dark",
-    height=600
-    )
-
-    fig_nocs_feeder.update_layout(
-        plot_bgcolor="rgba(0,0,0,0)",
-        xaxis=(dict(showgrid=False))
-    )
-
-
-    st.plotly_chart(fig_nocs_feeder, use_container_width=True)
-
     temp_pt =consumption_by_feeder[consumption_by_feeder['Corrected_Consumption']!=0]
     temp_pt['Corrected_Consumption']=temp_pt['Corrected_Consumption'].astype(int)
     summary_sb = px.sunburst(temp_pt,
@@ -306,6 +287,24 @@ elif(graphview2):
 
     st.plotly_chart(summary_sb, use_container_width=True)
 
+    fig_nocs_feeder = px.bar(
+    consumption_by_feeder,
+    y="Corrected_Consumption",
+    x="Feeder_Name",
+    labels = "Corrected_Consumption",
+    orientation = "v",
+    title="<b>Feeder Wise Consumption</b>",
+    color="Corrected_Consumption",
+    template="plotly_dark",
+    height=600
+    )
+
+    fig_nocs_feeder.update_layout(
+        plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=(dict(showgrid=False))
+    )
+    
+    st.plotly_chart(fig_nocs_feeder, use_container_width=True)
 
 elif(graphhide2): st.markdown("---")
 
