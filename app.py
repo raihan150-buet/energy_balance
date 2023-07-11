@@ -166,7 +166,7 @@ def output_df_to_pdf(pdf, df):
             pdf.cell(table_cell_width, table_cell_height, value, align='C', border=1)
         pdf.ln(table_cell_height)
     pdf.ln()
-    pdf.set_font('Arial', 'B', 16)
+    pdf.set_font('Arial', 'B', 10)
     pdf.cell(0,10, txt="Total Consumption:- "+str(df["Consumption"].sum()))
     pdf.ln()
     pdf.cell(0,10, txt="Total Corrected Consumption:- "+str(df["Corrected_Consumption"].sum()))
