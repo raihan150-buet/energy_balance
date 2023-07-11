@@ -210,8 +210,8 @@ elif(graphview):
         color =temp_pt["NOCS"],
         color_continuous_scale = ['red','yellow','green'],
         title='Feeder-wise Consumption',
-        width=1000,
-        height= 600
+        width=1500,
+        height= 800
     )
     summary_sb.update_layout(
         title_font_size = 20, 
