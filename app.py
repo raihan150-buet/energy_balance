@@ -34,10 +34,10 @@ consumption_corrected = int(df_selection["Corrected_Consumption"].sum())
 
 left_column, right_column = st.columns(2)
 with left_column:
-    st.subheader("Total Corrected Consumption:")
+    st.subheader("Total Corrected Import at 33 KV Level- (All NOCS)")
 #     st.subheader(f"Unit {consumption:,}")
 with right_column:
-    st.subheader(f"Unit {consumption_corrected}")
+    st.subheader(f" {consumption_corrected} KWH")
 
 st.markdown("""----""")
 consumption_by_nocs = (
