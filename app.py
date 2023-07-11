@@ -32,7 +32,7 @@ st.markdown("##")
 # consumption = int(df_selection["Consumption"].sum())
 consumption_corrected = int(df_selection["Corrected_Consumption"].sum())
 
-left_column,middle,right_column = st.columns(2)
+left_column,middle,right_column = st.columns(3)
 with left_column:
     st.subheader("Total Corrected Import at 33 KV Level- ")
 with middle:
