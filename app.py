@@ -191,6 +191,8 @@ with col4:
     graphhide = st.button("Click to Hide Substation-wise Graph")
 if(tableview):
     df_show=df_selection.query("Substation_Name==@substation_choice")
+    df_show["Consumption"]=df_show["Consumption"].astype(int)
+    df_show["Corrected_Consumption"]=df_show["Corrected_Consumption"].astype(int)
     st.write(df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","Difference","OMF","Consumption","Corrected_Consumption","NOCS"]])
     col1, col2, col3= st.columns(3)
     col1.write("Consumption : " + str(df_show["Consumption"].sum()))
@@ -260,6 +262,8 @@ with col4:
     graphhide2 = st.button("Click to Hide NOCS-wise Graph ")
 if(tableview2):
     df_show=df_selection.query("NOCS==@nocs_choice")
+    df_show["Consumption"]=df_show["Consumption"].astype(int)
+    df_show["Corrected_Consumption"]=df_show["Corrected_Consumption"].astype(int)
     st.write(df_show[["NOCS","Substation_Name","Feeder_Name","Consumption","Corrected_Consumption"]])
     col1, col2= st.columns(2)
     col1.write("Consumption : " + str(df_show["Consumption"].sum()))
