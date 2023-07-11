@@ -168,6 +168,7 @@ def output_df_to_pdf(pdf, df):
     pdf.ln()
     pdf.set_font('Arial', 'B', 16)
     pdf.cell(0,10, txt="Total Consumption:- "+str(df["Consumption"].sum()))
+    pdf.ln()
     pdf.cell(0,10, txt="Total Corrected Consumption:- "+str(df["Corrected_Consumption"].sum()))
 
 def export_as_pdf(report_text,data):
