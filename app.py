@@ -15,7 +15,7 @@ def get_data_from_excel():
         sheet_name="Linked_11KV",
         skiprows=0,
         usecols="B:O",
-        nrows=1171,
+        nrows=1180,
     )
 
     return df
@@ -210,6 +210,7 @@ elif(graphview):
     consumption_by_substation=df_selection.query("Substation_Name==@substation_choice")[["Feeder_Name","Corrected_Consumption","NOCS"]]
     temp_pt =consumption_by_substation[consumption_by_substation['Corrected_Consumption']!=0]
     temp_pt['Corrected_Consumption']=temp_pt['Corrected_Consumption'].astype(int)
+    temp_pt['Corrected_Consumption']=temp_pt['Corrected_Consumption'].abs()
     summary_sb = px.sunburst(temp_pt,
         path=['NOCS','Feeder_Name','Corrected_Consumption'],
         values=temp_pt["Corrected_Consumption"],
@@ -279,6 +280,7 @@ elif(graphview2):
     consumption_by_feeder=df_selection.query("NOCS==@nocs_choice")[["Substation_Name","Feeder_Name","Corrected_Consumption"]]
     temp_pt =consumption_by_feeder[consumption_by_feeder['Corrected_Consumption']!=0]
     temp_pt['Corrected_Consumption']=temp_pt['Corrected_Consumption'].astype(int)
+    temp_pt['Corrected_Consumption']=temp_pt['Corrected_Consumption'].abs()
     summary_sb = px.sunburst(temp_pt,
         path=['Substation_Name','Feeder_Name','Corrected_Consumption'],
         values=temp_pt["Corrected_Consumption"],
