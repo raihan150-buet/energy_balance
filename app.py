@@ -92,6 +92,7 @@ st.plotly_chart(fig_nocs_consumption, use_container_width=True)
 ss_wise = df_selection.groupby(['Substation_Name','NOCS'])['Corrected_Consumption'].sum().reset_index()
 ss_wise = ss_wise[ss_wise['Corrected_Consumption']!=0]
 ss_wise['Corrected_Consumption']=ss_wise['Corrected_Consumption'].astype(int)
+ss_wise['Corrected_Consumption']=ss_wise['Corrected_Consumption'].abs()
 summary_sb = px.treemap(ss_wise,
     path=['Substation_Name','NOCS','Corrected_Consumption'],
     values=ss_wise["Corrected_Consumption"],
