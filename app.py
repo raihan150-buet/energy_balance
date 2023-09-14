@@ -40,7 +40,7 @@ with right_column:
 
 st.markdown("""----""")
 consumption_by_nocs = (
-    df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()[1:36]
+    df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()[1:37]
 )
 consumption_by_nocs["Corrected_Consumption"]=consumption_by_nocs['Corrected_Consumption'].astype(int)
 #-----------------------TreeMap-------------------#
