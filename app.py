@@ -43,101 +43,6 @@ consumption_by_nocs = (
     df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()[1:37]
 )
 consumption_by_nocs["Corrected_Consumption"]=consumption_by_nocs['Corrected_Consumption'].astype(int)
-#-----------------------TreeMap-------------------#
-summary_tree = px.treemap(consumption_by_nocs,
-                 path=consumption_by_nocs.columns,
-                 values=consumption_by_nocs["Corrected_Consumption"],
-                 color =consumption_by_nocs["NOCS"],
-                 color_continuous_scale = ['red','yellow','green'],
-                 title='Summary of Import',
-                 width = 1000,
-                 height = 700,
-                 )
-
-summary_tree.update_layout(
-    font_size = 15,
-    title_font_size = 50, 
-    title_font_family ='Arial',
-)
-
-st.plotly_chart(summary_tree, use_container_width=True)
-
-#--------------------------------------------#
-
-fig_nocs_consumption = px.bar(
-    consumption_by_nocs,
-    y=consumption_by_nocs["Corrected_Consumption"],
-    x=consumption_by_nocs["NOCS"],
-    labels = consumption_by_nocs["Corrected_Consumption"],
-    orientation = "v",
-    title="<b>Consumption by NOCS</b>",
-    color="Corrected_Consumption",
-    template="plotly_dark",
-    text_auto = ".4s",
-    height=600
-)
-
-fig_nocs_consumption.update_layout(
-    font_size = 15,
-    title_font_size = 50, 
-    title_font_family ='Arial',
-    plot_bgcolor="rgba(0,0,0,0)",
-    xaxis=(dict(showgrid=False))
-)
-
-fig_nocs_consumption.update_traces(textfont_size=45, textangle=-90, textposition="inside", cliponaxis=False)
-
-
-st.plotly_chart(fig_nocs_consumption, use_container_width=True)
-ss_wise = df_selection.groupby(['Substation_Name','NOCS'])['Corrected_Consumption'].sum().reset_index()
-ss_wise = ss_wise[ss_wise['Corrected_Consumption']!=0]
-ss_wise['Corrected_Consumption']=ss_wise['Corrected_Consumption'].astype(int)
-ss_wise['Corrected_Consumption']=ss_wise['Corrected_Consumption'].abs()
-summary_sb = px.treemap(ss_wise,
-    path=['Substation_Name','NOCS','Corrected_Consumption'],
-    values=ss_wise["Corrected_Consumption"],
-    color =ss_wise["Corrected_Consumption"] ,
-    color_continuous_scale=['Green','Violet','Yellow','Red'],
-    title='Summary of Import',
-    width = 800,
-    height = 1000
-)
-summary_sb.update_layout(
-    title_font_size = 50, 
-    title_font_family ='Arial'
-)
-
-st.plotly_chart(summary_sb, use_container_width=True)
- 
-# ---- HIDE STREAMLIT STYLE ----
-hide_st_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_st_style, unsafe_allow_html=True)
-
-ss_list=['Moghbazar 132/33/11KV S/S','Moghbazar 33/11KV S/S','Green Road 33/11KV S/S','Lalmatia  33/11KV S/S',
-         'Tejgoan 33/11KV S/S','T&T 33/11 KV','Dhanmondi 132/33/11KV S/S','Dhanmondi 33/11KV S/S','Kawranbazar  33/11KV S/S',
-         'New Ramna   33/11KV S/S','Ullon 132/33/11KV S/S','Ullon local 33/11KV S/S','Kakrail  33/11KV S/S','Khillgaon  33/11KV S/S',
-         'Goran  33/11KV S/S','Taltola  33/11KV S/S','Satmasjid 33/11KV S/S','Jigatola 33/11KV S/S','Kallyanpur 33/11KV S/S',
-         'Kamrangirchar 132/33/11KV S/S','Kamrangirchar 33/11KV S/S','Lalbagh old 33/11KV S/S','Banshal 33/11KV S/S','Japan Garden 33/11 KV',
-         'Azimpur 33/11 KV','SHERE BANGLA NAGAR  33/11 KV S/S ','LALBAGH   132/33 KV S/S ','LALBAGH   33/11 KV S/S ','Asad Gate 33/11 KV S/S',
-         'Shatmasjid 132/33 KV S/S','Banasree 33/11 SS','Mugdhapara Hospital 33/11 KV SS','DMC 33/11 KV SS','Green Road Dormatory 33/11 SS',
-         'BSMMU 33/11KV S/S','Dhaka Uddyan 33/11 KV S/S','Dhaka University 132/33 KV S/S','Dhaka University 33/11 KV S/S','Monipuripara 33/11 KV S/S',
-         'BGB 33/11 KV S/S','BB Aveneu 33/11 KV S/S','Jigatola 132/33 KV S/S','Jigatola New 33/11 KV S/S','Ispahani 33/11 KV SS',
-         'Bangabhaban 132/11KV S/S','Narinda 132/33KV S/S','Narinda 33/11KV S/S','Kumertuly  33/11KV S/S','Maniknagar 132/33 S/S',
-         'Maniknagar 33/11 KV SS','Madarteck 132/33KV S/S','Madarteck 33/11KV S/S','Kazla  33/11KV S/S','Shyampur  132/33KV S/S',
-         'Shyampur  33/11KV S/S','Shyampur BISIC  33/11KV S/S','Postogola 33/11KV S/S','Fatullah 33/11KV S/S','Sitalakhya  132/33KV S/S',
-         'Sitalakhya  33/11KV S/S','Narayangonj (west) BSCIC33/11KV S/S','Char Syedpur 33/11KV S/S','Siddhirganj 132/33/11KV S/S',
-         'Siddhirganj  33/11KV S/S','Demra 33/11KV S/S','Mondalpara 33/11KV S/S','Khanpur 33/11KV S/S','Matuail 33/11KV S/S','Matuail 132/33 KV S/S',
-         'Sarulia  33/11KV S/S','Maniknagar 33/11KV S/S','IG Gate GIS 33/11 kV','Motijheel old 33/11 kV','Mitford 33/11 kV','Biddyut Bhaban 33/11 KV',
-         'Nandalalpur 33/11 kV','Dapa 33/11 kV','Laxmi Narayan Cotton Mill 33/11 kV','Amulia 33/11 kv','New Fatullah 132/33 KV SS',
-         'New Fatullah 33/11 KV SS','P & T 33/11 KV SS','Motijheel 132/33 KV SS','Motijheel 33/11 KV SS (new)','Kazla 132/133 KV SS',
-         'Kamalapur Railway 33/11 KV SS','Char Syedpur 132/33KV S/S','Char Syedpur 33/11 KV S/S New','Postogola 132/33 KV S/S'
-]
 ### Reporting Engine Creation
 def create_download_link(val, filename):
     b64 = base64.b64encode(val)  # val looks like b'...'
@@ -168,21 +73,203 @@ def output_df_to_pdf(pdf, df):
         pdf.ln(table_cell_height)
     pdf.ln()
     pdf.set_font('Arial', 'B', 10)
-    pdf.cell(0,10, txt="Total Consumption:- "+str(df["Consumption"].sum()))
+    try:
+        pdf.cell(0,10, txt="Total Consumption:- "+str(df["Consumption"].sum()))
+    except KeyError:
+        print("")
     pdf.ln()
     pdf.cell(0,10, txt="Total Corrected Consumption:- "+str(df["Corrected_Consumption"].sum()))
 
-def export_as_pdf(report_text,data):
-    pdf = FPDF('landscape','mm',"A4")
+def export_as_pdf(report_text,data,report_type):
+    if report_type == 'table':
+        pdf = FPDF('landscape','mm',"A4")
+    elif report_type == 'summary':
+        pdf = FPDF('Portrait','mm',"A4")
     pdf.add_page()
     pdf.set_font('Arial', 'B', 16)
-    pdf.cell(0, 10, txt=report_text, align="C")
+    if report_type == 'table':
+        pdf.cell(0, 10, txt=report_text, align="C")
+    elif report_type == 'summary':
+        pdf.cell(0, 10, txt=report_text, align="L")
     pdf.ln()
     output_df_to_pdf(pdf,data)
     
     html = create_download_link(pdf.output(dest="S").encode("latin-1"), "Report")
 
     return(st.markdown(html, unsafe_allow_html=True))
+
+#-----------------------NOCS-Wise Summary TreeMap-------------------#
+summary_tree_nw = px.treemap(consumption_by_nocs,
+                 path=consumption_by_nocs.columns,
+                 values=consumption_by_nocs["Corrected_Consumption"],
+                 color =consumption_by_nocs["NOCS"],
+                 color_continuous_scale = ['red','yellow','green'],
+                 title='NOCS-Wise Summary of Import',
+                 width = 1000,
+                 height = 700,
+                 )
+
+summary_tree_nw.update_layout(
+    font_size = 15,
+    title_font_size = 30, 
+    title_font_family ='Arial',
+)
+st.plotly_chart(summary_tree_nw, use_container_width=True)
+#----------------Report-Download---------------------
+export_as_pdf("Summary of NOCS-Wise Import",consumption_by_nocs,'summary')
+
+# Create a dictionary to map "NOCS" to "Circle" and "Zone"
+nocs_mapping = {
+    "Tejgaon": ("Tejgaon", "North"),
+    "Kakrail": ("Tejgaon", "North"),
+    "Moghbazar": ("Moghbazar", "North"),
+    "Khilgaon": ("Moghbazar", "North"),
+    "Satmasjid": ("Satmasjid", "North"),
+    "Shere b.nagar": ("Satmasjid", "North"),
+    "Dhanmondi": ("Dhanmondi", "North"),
+    "Jigatola": ("Dhanmondi", "North"),
+    "Azimpur": ("Azimpur", "North"),
+    "Paribag": ("Azimpur", "North"),
+    "Shyamoli": ("Shyamoli", "North"),
+    "Adabor": ("Shyamoli", "North"),
+    "Lalbag": ("Lalbag", "Central"),
+    "Kamrangirchar": ("Lalbag", "Central"),
+    "Ramna": ("Ramna", "Central"),
+    "Rajarbag": ("Ramna", "Central"),
+    "Bashabo": ("Bashabo", "Central"),
+    "Banosree": ("Bashabo", "Central"),
+    "Motijheel": ("Motijheel", "Central"),
+    "Mugdapara": ("Motijheel", "Central"),
+    "Banglabazar": ("Banglabazar", "Central"),
+    "Bangshal": ("Banglabazar", "Central"),
+    "Narinda": ("Narinda", "Central"),
+    "Swamibag": ("Narinda", "Central"),
+    "Kazla": ("Kazla", "South"),
+    "Maniknagar": ("Kazla", "South"),
+    "Shyampur": ("Shyampur", "South"),
+    "Matuail": ("Shyampur", "South"),
+    "Postogola": ("Postogola", "South"),
+    "Jurain": ("Postogola", "South"),
+    "N.Gonj (West)": ("N.Gonj (West)", "South"),
+    "N.Gonj (East)": ("N.Gonj (West)", "South"),
+    "Demra": ("Demra", "South"),
+    "Siddirgonj": ("Demra", "South"),
+    "Fatullah": ("Fatullah", "South"),
+    "Sytalakhya": ("Fatullah", "South"),
+}
+
+# Function to map "NOCS" to "Circle" and "Zone"
+def map_nocs(row):
+    nocs = row["NOCS"]
+    if nocs in nocs_mapping:
+        circle, zone = nocs_mapping[nocs]
+        return pd.Series([circle, zone], index=["Circle", "Zone"])
+    else:
+        return pd.Series(["Unknown", "Unknown"], index=["Circle", "Zone"])
+
+# Apply the mapping function to add "Circle" and "Zone" columns
+consumption_by_nocs[["Circle", "Zone"]] = consumption_by_nocs.apply(map_nocs, axis=1)
+
+# Display the updated DataFrame
+consumption_by_nocs.groupby(['Zone','Circle','NOCS'])['Corrected_Consumption'].sum().reset_index()
+#-----------------------Cirlce, Zone and NOCS-wise Summary TreeMap-------------------#
+summary_tree_zcn = px.treemap(consumption_by_nocs,
+                 path=['Zone','Circle','NOCS','Corrected_Consumption'],
+                 values=consumption_by_nocs["Corrected_Consumption"],
+                 color =consumption_by_nocs["Circle"],
+                 color_continuous_scale = ['red','yellow','green'],
+                 title='Zone, Circle and NOCS-Wise Summary of Import',
+                 width = 1000,
+                 height = 700,
+                 )
+
+summary_tree_zcn.update_layout(
+    font_size = 15,
+    title_font_size = 30, 
+    title_font_family ='Arial',
+)
+
+st.plotly_chart(summary_tree_zcn, use_container_width=True)
+export_as_pdf("Summary of Zone, Circle and NOCS-Wise Import",consumption_by_nocs.sort_values(by=["Zone","Circle"])[["Zone","Circle","NOCS","Corrected_Consumption"]],'summary')
+
+
+#--------------------------------------------#
+
+fig_nocs_consumption = px.bar(
+    consumption_by_nocs,
+    y=consumption_by_nocs["Corrected_Consumption"],
+    x=consumption_by_nocs["NOCS"],
+    labels = consumption_by_nocs["Corrected_Consumption"],
+    orientation = "v",
+    title="<b>Consumption by NOCS</b>",
+    color="Corrected_Consumption",
+    template="plotly_dark",
+    text_auto = ".4s",
+    height=600
+)
+
+fig_nocs_consumption.update_layout(
+    font_size = 15,
+    title_font_size = 30, 
+    title_font_family ='Arial',
+    plot_bgcolor="rgba(0,0,0,0)",
+    xaxis=(dict(showgrid=False))
+)
+
+fig_nocs_consumption.update_traces(textfont_size=45, textangle=-90, textposition="inside", cliponaxis=False)
+
+
+st.plotly_chart(fig_nocs_consumption, use_container_width=True)
+
+# ss_wise = df_selection.groupby(['Substation_Name','NOCS'])['Corrected_Consumption'].sum().reset_index()
+# ss_wise = ss_wise[ss_wise['Corrected_Consumption']!=0]
+# ss_wise['Corrected_Consumption']=ss_wise['Corrected_Consumption'].astype(int)
+# ss_wise['Corrected_Consumption']=ss_wise['Corrected_Consumption'].abs()
+# summary_sb = px.treemap(ss_wise,
+#     path=['NOCS','Substation_Name','Corrected_Consumption'],
+#     values=ss_wise["Corrected_Consumption"],
+#     color =ss_wise["Corrected_Consumption"] ,
+#     color_continuous_scale=['Green','Violet','Yellow','Red'],
+#     title='NOCS-Wise and Substation-wise Detailed Import',
+#     width = 800,
+#     height = 1000
+# )
+# summary_sb.update_layout(
+#     title_font_size = 30, 
+#     title_font_family ='Arial'
+# )
+
+# st.plotly_chart(summary_sb, use_container_width=True)
+ 
+# ---- HIDE STREAMLIT STYLE ----
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
+ss_list=['Moghbazar 132/33/11KV S/S','Moghbazar 33/11KV S/S','Green Road 33/11KV S/S','Lalmatia  33/11KV S/S',
+         'Tejgoan 33/11KV S/S','T&T 33/11 KV','Dhanmondi 132/33/11KV S/S','Dhanmondi 33/11KV S/S','Kawranbazar  33/11KV S/S',
+         'New Ramna   33/11KV S/S','Ullon 132/33/11KV S/S','Ullon local 33/11KV S/S','Kakrail  33/11KV S/S','Khillgaon  33/11KV S/S',
+         'Goran  33/11KV S/S','Taltola  33/11KV S/S','Satmasjid 33/11KV S/S','Jigatola 33/11KV S/S','Kallyanpur 33/11KV S/S',
+         'Kamrangirchar 132/33/11KV S/S','Kamrangirchar 33/11KV S/S','Lalbagh old 33/11KV S/S','Banshal 33/11KV S/S','Japan Garden 33/11 KV',
+         'Azimpur 33/11 KV','SHERE BANGLA NAGAR  33/11 KV S/S ','LALBAGH   132/33 KV S/S ','LALBAGH   33/11 KV S/S ','Asad Gate 33/11 KV S/S',
+         'Shatmasjid 132/33 KV S/S','Banasree 33/11 SS','Mugdhapara Hospital 33/11 KV SS','DMC 33/11 KV SS','Green Road Dormatory 33/11 SS',
+         'BSMMU 33/11KV S/S','Dhaka Uddyan 33/11 KV S/S','Dhaka University 132/33 KV S/S','Dhaka University 33/11 KV S/S','Monipuripara 33/11 KV S/S',
+         'BGB 33/11 KV S/S','BB Aveneu 33/11 KV S/S','Jigatola 132/33 KV S/S','Jigatola New 33/11 KV S/S','Ispahani 33/11 KV SS',
+         'Bangabhaban 132/11KV S/S','Narinda 132/33KV S/S','Narinda 33/11KV S/S','Kumertuly  33/11KV S/S','Maniknagar 132/33 S/S',
+         'Maniknagar 33/11 KV SS','Madarteck 132/33KV S/S','Madarteck 33/11KV S/S','Kazla  33/11KV S/S','Shyampur  132/33KV S/S',
+         'Shyampur  33/11KV S/S','Shyampur BISIC  33/11KV S/S','Postogola 33/11KV S/S','Fatullah 33/11KV S/S','Sitalakhya  132/33KV S/S',
+         'Sitalakhya  33/11KV S/S','Narayangonj (west) BSCIC33/11KV S/S','Char Syedpur 33/11KV S/S','Siddhirganj 132/33/11KV S/S',
+         'Siddhirganj  33/11KV S/S','Demra 33/11KV S/S','Mondalpara 33/11KV S/S','Khanpur 33/11KV S/S','Matuail 33/11KV S/S','Matuail 132/33 KV S/S',
+         'Sarulia  33/11KV S/S','Maniknagar 33/11KV S/S','IG Gate GIS 33/11 kV','Motijheel old 33/11 kV','Mitford 33/11 kV','Biddyut Bhaban 33/11 KV',
+         'Nandalalpur 33/11 kV','Dapa 33/11 kV','Laxmi Narayan Cotton Mill 33/11 kV','Amulia 33/11 kv','New Fatullah 132/33 KV SS',
+         'New Fatullah 33/11 KV SS','P & T 33/11 KV SS','Motijheel 132/33 KV SS','Motijheel 33/11 KV SS (new)','Kazla 132/133 KV SS',
+         'Kamalapur Railway 33/11 KV SS','Char Syedpur 132/33KV S/S','Char Syedpur 33/11 KV S/S New','Postogola 132/33 KV S/S'
+]
 
 substation_choice = st.selectbox("Pick one Substation from Below",ss_list)
 st.markdown("""---""")
@@ -204,7 +291,7 @@ if(tableview):
     col1.write("Consumption : " + str(df_show["Consumption"].sum()))
     col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
     col3.write("Substation Loss: "+str(((df_show["Corrected_Consumption"].sum())-(df_show["Consumption"].sum()))/(df_show["Consumption"].sum())*100)+"%")
-    export_as_pdf("Substation Name: "+substation_choice,df_show[["Feeder_Name","CF","Opening_Reading","Closing_Reading","OMF","Consumption","Corrected_Consumption","NOCS"]])
+    export_as_pdf("Substation Name: "+substation_choice,df_show[["Feeder_Name","CF","Opening_Reading","Closing_Reading","OMF","Consumption","Corrected_Consumption","NOCS"]],'table')
 
 elif(tablehide): st.markdown("---")
 elif(graphview):
@@ -232,15 +319,17 @@ elif(graphview):
     consumption_by_substation,
     y="Corrected_Consumption",
     x="Feeder_Name",
-    labels = "Corrected_Consumption",
+    labels= consumption_by_substation["Corrected_Consumption"],
     orientation = "v",
     title="<b>Feeder Wise Consumption</b>",
     color="NOCS",
+    text_auto = "0.2s",
     template="plotly_dark",
     height=600
     )
 
     fig_nocs_ss.update_layout(
+        font_size = 15,
         plot_bgcolor="rgba(0,0,0,0)",
         xaxis=(dict(showgrid=False))
     )
@@ -275,7 +364,7 @@ if(tableview2):
     col1, col2= st.columns(2)
     col1.write("Consumption : " + str(df_show["Consumption"].sum()))
     col2.write("Corrected Consumption: " +str(df_show["Corrected_Consumption"].sum()))
-    export_as_pdf("NOCS Name: "+nocs_choice,df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","OMF","Consumption","Corrected_Consumption"]])
+    export_as_pdf("NOCS Name: "+nocs_choice,df_show[["Substation_Name","Feeder_Name","CF","Opening_Reading","Closing_Reading","OMF","Consumption","Corrected_Consumption"]],'table')
 elif(tablehide2): st.markdown("---")
 elif(graphview2):
     consumption_by_feeder=df_selection.query("NOCS==@nocs_choice")[["Substation_Name","Feeder_Name","Corrected_Consumption"]]
@@ -300,17 +389,19 @@ elif(graphview2):
 
     fig_nocs_feeder = px.bar(
     consumption_by_feeder,
-    y="Corrected_Consumption",
-    x="Feeder_Name",
-    labels = "Corrected_Consumption",
+    y=consumption_by_feeder["Corrected_Consumption"],
+    x=consumption_by_feeder["Feeder_Name"],
+    labels= consumption_by_feeder["Corrected_Consumption"],
     orientation = "v",
     title="<b>Feeder Wise Consumption</b>",
-    color="Corrected_Consumption",
+    color="Substation_Name",
+    text_auto = "0.2s",
     template="plotly_dark",
-    height=600
+    height=800
     )
 
     fig_nocs_feeder.update_layout(
+        font_size= 15,
         plot_bgcolor="rgba(0,0,0,0)",
         xaxis=(dict(showgrid=False))
     )
