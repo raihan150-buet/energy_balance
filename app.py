@@ -14,7 +14,7 @@ def get_data_from_excel():
         engine="openpyxl",
         sheet_name="Linked_11KV",
         skiprows=0,
-        usecols="B:O",
+        usecols="B:P",
         nrows=1161,
     )
 
@@ -174,230 +174,230 @@ def map_nocs(row):
 # Apply the mapping function to add "Circle" and "Zone" columns
 consumption_by_nocs[["Circle", "Zone"]] = consumption_by_nocs.apply(map_nocs, axis=1)
 
-#-----------Templace Creation------------------
-# st.title("Zone-Circle-Division wise Import for August-2023")
-# html_table =f"""
-# <center>
-# <table class="tg" bgcolor="#063970">
-# <thead>
-# <tr>
-# <th class="tg-op08">Zone</th>
-# <th class="tg-pl3c">Zone Total</th>
-# <th class="tg-pl3c">Circle</th>
-# <th class="tg-pl3c">Circle Total</th>
-# <th class="tg-op08">NOCS</th>
-# <th class="tg-pl3c">NOCS Total Import</th>
-# </tr>
-# </thead>
-# <tbody>
-# <tr>
-# <td class="tg-e23d" rowspan="12">Central</td>
-# <td class="Z_Central" rowspan="12">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banglabazar"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bangshal"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bashabo"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banosree"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Lalbag"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kamrangirchar"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Motijheel"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Mugdapara"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Narinda"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Swamibag"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Ramna"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Rajarbag"].item()}</td>
-# <td class="tg-e23d" rowspan="2">Banglabazar</td>
-# <td class="C_Banglabazar" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banglabazar"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bangshal"].item()}</td>
-# <td class="tg-ncgp">Banglabazar</td>
-# <td class="N_Banglabazar">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banglabazar"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Bangshal</td>
-# <td class="N_Bangshal">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bangshal"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Bashabo</td>
-# <td class="C_Bashabo" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bashabo"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banosree"].item()}</td>
-# <td class="tg-ncgp">Banosree</td>
-# <td class="N_Banosree">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banosree"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Bashabo</td>
-# <td class="N_Bashabo">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bashabo"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Lalbag</td>
-# <td class="C_Lalbag" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Lalbag"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kamrangirchar"].item()}</td>
-# <td class="tg-ncgp">Kamrangirchar</td>
-# <td class="N_Kamrangirchar">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kamrangirchar"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Lalbag</td>
-# <td class="N_Lalbag">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Lalbag"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Motijheel</td>
-# <td class="C_Motijheel" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Motijheel"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Mugdapara"].item()}</td>
-# <td class="tg-ncgp">Motijheel</td>
-# <td class="N_Motijheel">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Motijheel"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Mugdapara</td>
-# <td class="N_Mugdapara">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Mugdapara"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Narinda</td>
-# <td class="C_Narinda" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Narinda"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Swamibag"].item()}</td>
-# <td class="tg-ncgp">Narinda</td>
-# <td class="N_Narinda">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Narinda"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Swamibag</td>
-# <td class="N_Swamibag">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Swamibag"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Ramna</td>
-# <td class="C_Ramna" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Ramna"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Rajarbag"].item()}</td>
-# <td class="tg-ncgp">Rajarbag</td>
-# <td class="N_Rajarbag">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Rajarbag"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Ramna</td>
-# <td class="N_Ramna">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Ramna"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="12">North</td>
-# <td class="Z_North" rowspan="12">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Azimpur"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Paribag"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Dhanmondi"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jigatola"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Moghbazar"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Khilgaon"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Satmasjid"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shere b.nagar"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyamoli"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Adabor"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Tejgaon"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kakrail"].item()}</td>
-# <td class="tg-e23d" rowspan="2">Azimpur</td>
-# <td class="C_Azimpur" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Azimpur"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Paribag"].item()}</td>
-# <td class="tg-ncgp">Azimpur</td>
-# <td class="N_Azimpur">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Azimpur"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Paribag</td>
-# <td class="N_Paribag">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Paribag"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Dhanmondi</td>
-# <td class="C_Dhanmondi" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Dhanmondi"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jigatola"].item()}</td>
-# <td class="tg-ncgp">Dhanmondi</td>
-# <td class="N_Dhanmondi">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Dhanmondi"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Jigatola</td>
-# <td class="N_Jigatola">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jigatola"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Moghbazar</td>
-# <td class="C_Moghbazar" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Moghbazar"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Khilgaon"].item()}</td>
-# <td class="tg-ncgp">Khilgaon</td>
-# <td class="N_Khilgaon">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Khilgaon"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Moghbazar</td>
-# <td class="N_Moghbazar">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Moghbazar"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Satmasjid</td>
-# <td class="C_Satmasjid" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Satmasjid"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shere b.nagar"].item()}</td>
-# <td class="tg-ncgp">Satmasjid</td>
-# <td class="N_Satmasjid">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Satmasjid"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Shere b.nagar</td>
-# <td class="N_Shere b.nagar">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shere b.nagar"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Shyamoli</td>
-# <td class="C_Shyamoli" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyamoli"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Adabor"].item()}</td>
-# <td class="tg-ncgp">Adabor</td>
-# <td class="N_Adabor">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Adabor"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Shyamoli</td>
-# <td class="N_Shyamoli">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyamoli"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Tejgaon</td>
-# <td class="C_Tejgaon" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Tejgaon"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kakrail"].item()}</td>
-# <td class="tg-ncgp">Kakrail</td>
-# <td class="N_Kakrail">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kakrail"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Tejgaon</td>
-# <td class="N_Tejgaon">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Tejgaon"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="12">South</td>
-# <td class="Z_South" rowspan="12">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Fatullah"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Sytalakhya"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Fatullah"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Sytalakhya"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kazla"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Maniknagar"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (East)"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (West)"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyampur"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Matuail"].item()+
-# consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Postogola"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jurain"].item()}</td>
-# <td class="tg-e23d" rowspan="2">Demra</td>
-# <td class="C_Demra" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Fatullah"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Sytalakhya"].item()}</td>
-# <td class="tg-ncgp">Demra</td>
-# <td class="N_Demra">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Demra"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Siddirgonj</td>
-# <td class="N_Siddirgonj">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Siddirgonj"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Fatullah</td>
-# <td class="C_Fatullah" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Fatullah"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Sytalakhya"].item()}</td>
-# <td class="tg-ncgp">Fatullah</td>
-# <td class="N_Fatullah">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Fatullah"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Sytalakhya</td>
-# <td class="N_Sytalakhya">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Sytalakhya"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Kazla</td>
-# <td class="C_Kazla" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kazla"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Maniknagar"].item()}</td>
-# <td class="tg-ncgp">Kazla</td>
-# <td class="N_Kazla">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kazla"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Maniknagar</td>
-# <td class="N_Maniknagar">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Maniknagar"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">N.Gonj (West)</td>
-# <td class="C_N.Gonj (West)" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (East)"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (West)"].item()}</td>
-# <td class="tg-ncgp">N.Gonj (East)</td>
-# <td class="N_N.Gonj (East)">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (East)"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">N.Gonj (West)</td>
-# <td class="N_N.Gonj (West)">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (West)"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Postogola</td>
-# <td class="C_Postogola" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Postogola"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jurain"].item()}</td>
-# <td class="tg-ncgp">Jurain</td>
-# <td class="N_Jurain">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jurain"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Postogola</td>
-# <td class="N_Postogola">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Postogola"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-e23d" rowspan="2">Shyampur</td>
-# <td class="C_Shyampur" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyampur"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Matuail"].item()}</td>
-# <td class="tg-ncgp">Matuail</td>
-# <td class="N_Matuail">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Matuail"].item()}</td>
-# </tr>
-# <tr>
-# <td class="tg-ncgp">Shyampur</td>
-# <td class="N_Shyampur">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyampur"].item()}</td>
-# </tr>
-# </tbody>
-# </table>
-# </center>
-# """
+-----------Templace Creation------------------
+st.title("Zone-Circle-Division wise Import for August-2023")
+html_table =f"""
+<center>
+<table class="tg" bgcolor="#063970">
+<thead>
+<tr>
+<th class="tg-op08">Zone</th>
+<th class="tg-pl3c">Zone Total</th>
+<th class="tg-pl3c">Circle</th>
+<th class="tg-pl3c">Circle Total</th>
+<th class="tg-op08">NOCS</th>
+<th class="tg-pl3c">NOCS Total Import</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tg-e23d" rowspan="12">Central</td>
+<td class="Z_Central" rowspan="12">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banglabazar"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bangshal"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bashabo"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banosree"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Lalbag"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kamrangirchar"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Motijheel"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Mugdapara"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Narinda"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Swamibag"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Ramna"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Rajarbag"].item()}</td>
+<td class="tg-e23d" rowspan="2">Banglabazar</td>
+<td class="C_Banglabazar" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banglabazar"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bangshal"].item()}</td>
+<td class="tg-ncgp">Banglabazar</td>
+<td class="N_Banglabazar">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banglabazar"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Bangshal</td>
+<td class="N_Bangshal">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bangshal"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Bashabo</td>
+<td class="C_Bashabo" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bashabo"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banosree"].item()}</td>
+<td class="tg-ncgp">Banosree</td>
+<td class="N_Banosree">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Banosree"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Bashabo</td>
+<td class="N_Bashabo">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Bashabo"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Lalbag</td>
+<td class="C_Lalbag" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Lalbag"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kamrangirchar"].item()}</td>
+<td class="tg-ncgp">Kamrangirchar</td>
+<td class="N_Kamrangirchar">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kamrangirchar"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Lalbag</td>
+<td class="N_Lalbag">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Lalbag"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Motijheel</td>
+<td class="C_Motijheel" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Motijheel"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Mugdapara"].item()}</td>
+<td class="tg-ncgp">Motijheel</td>
+<td class="N_Motijheel">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Motijheel"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Mugdapara</td>
+<td class="N_Mugdapara">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Mugdapara"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Narinda</td>
+<td class="C_Narinda" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Narinda"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Swamibag"].item()}</td>
+<td class="tg-ncgp">Narinda</td>
+<td class="N_Narinda">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Narinda"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Swamibag</td>
+<td class="N_Swamibag">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Swamibag"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Ramna</td>
+<td class="C_Ramna" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Ramna"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Rajarbag"].item()}</td>
+<td class="tg-ncgp">Rajarbag</td>
+<td class="N_Rajarbag">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Rajarbag"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Ramna</td>
+<td class="N_Ramna">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Ramna"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="12">North</td>
+<td class="Z_North" rowspan="12">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Azimpur"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Paribag"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Dhanmondi"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jigatola"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Moghbazar"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Khilgaon"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Satmasjid"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shere b.nagar"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyamoli"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Adabor"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Tejgaon"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kakrail"].item()}</td>
+<td class="tg-e23d" rowspan="2">Azimpur</td>
+<td class="C_Azimpur" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Azimpur"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Paribag"].item()}</td>
+<td class="tg-ncgp">Azimpur</td>
+<td class="N_Azimpur">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Azimpur"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Paribag</td>
+<td class="N_Paribag">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Paribag"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Dhanmondi</td>
+<td class="C_Dhanmondi" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Dhanmondi"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jigatola"].item()}</td>
+<td class="tg-ncgp">Dhanmondi</td>
+<td class="N_Dhanmondi">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Dhanmondi"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Jigatola</td>
+<td class="N_Jigatola">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jigatola"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Moghbazar</td>
+<td class="C_Moghbazar" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Moghbazar"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Khilgaon"].item()}</td>
+<td class="tg-ncgp">Khilgaon</td>
+<td class="N_Khilgaon">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Khilgaon"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Moghbazar</td>
+<td class="N_Moghbazar">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Moghbazar"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Satmasjid</td>
+<td class="C_Satmasjid" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Satmasjid"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shere b.nagar"].item()}</td>
+<td class="tg-ncgp">Satmasjid</td>
+<td class="N_Satmasjid">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Satmasjid"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Shere b.nagar</td>
+<td class="N_Shere b.nagar">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shere b.nagar"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Shyamoli</td>
+<td class="C_Shyamoli" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyamoli"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Adabor"].item()}</td>
+<td class="tg-ncgp">Adabor</td>
+<td class="N_Adabor">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Adabor"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Shyamoli</td>
+<td class="N_Shyamoli">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyamoli"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Tejgaon</td>
+<td class="C_Tejgaon" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Tejgaon"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kakrail"].item()}</td>
+<td class="tg-ncgp">Kakrail</td>
+<td class="N_Kakrail">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kakrail"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Tejgaon</td>
+<td class="N_Tejgaon">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Tejgaon"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="12">South</td>
+<td class="Z_South" rowspan="12">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Fatullah"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Sytalakhya"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Fatullah"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Sytalakhya"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kazla"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Maniknagar"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (East)"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (West)"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyampur"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Matuail"].item()+
+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Postogola"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jurain"].item()}</td>
+<td class="tg-e23d" rowspan="2">Demra</td>
+<td class="C_Demra" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Fatullah"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Sytalakhya"].item()}</td>
+<td class="tg-ncgp">Demra</td>
+<td class="N_Demra">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Demra"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Siddirgonj</td>
+<td class="N_Siddirgonj">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Siddirgonj"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Fatullah</td>
+<td class="C_Fatullah" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Fatullah"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Sytalakhya"].item()}</td>
+<td class="tg-ncgp">Fatullah</td>
+<td class="N_Fatullah">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Fatullah"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Sytalakhya</td>
+<td class="N_Sytalakhya">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Sytalakhya"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Kazla</td>
+<td class="C_Kazla" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kazla"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Maniknagar"].item()}</td>
+<td class="tg-ncgp">Kazla</td>
+<td class="N_Kazla">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Kazla"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Maniknagar</td>
+<td class="N_Maniknagar">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Maniknagar"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">N.Gonj (West)</td>
+<td class="C_N.Gonj (West)" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (East)"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (West)"].item()}</td>
+<td class="tg-ncgp">N.Gonj (East)</td>
+<td class="N_N.Gonj (East)">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (East)"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">N.Gonj (West)</td>
+<td class="N_N.Gonj (West)">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="N.Gonj (West)"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Postogola</td>
+<td class="C_Postogola" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Postogola"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jurain"].item()}</td>
+<td class="tg-ncgp">Jurain</td>
+<td class="N_Jurain">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Jurain"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Postogola</td>
+<td class="N_Postogola">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Postogola"].item()}</td>
+</tr>
+<tr>
+<td class="tg-e23d" rowspan="2">Shyampur</td>
+<td class="C_Shyampur" rowspan="2">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyampur"].item()+consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Matuail"].item()}</td>
+<td class="tg-ncgp">Matuail</td>
+<td class="N_Matuail">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Matuail"].item()}</td>
+</tr>
+<tr>
+<td class="tg-ncgp">Shyampur</td>
+<td class="N_Shyampur">{consumption_by_nocs["Corrected_Consumption"][consumption_by_nocs["NOCS"]=="Shyampur"].item()}</td>
+</tr>
+</tbody>
+</table>
+</center>
+"""
 
-# # Render the HTML template
-# st.markdown(html_table, unsafe_allow_html=True)
+# Render the HTML template
+st.markdown(html_table, unsafe_allow_html=True)
 st.markdown("---")
 # Display the updated DataFrame
 consumption_by_nocs.groupby(['Zone','Circle','NOCS'])['Corrected_Consumption'].sum().reset_index()
