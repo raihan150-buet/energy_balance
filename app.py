@@ -174,7 +174,7 @@ def map_nocs(row):
 # Apply the mapping function to add "Circle" and "Zone" columns
 consumption_by_nocs[["Circle", "Zone"]] = consumption_by_nocs.apply(map_nocs, axis=1)
 
------------Templace Creation------------------
+# -----------Templace Creation------------------
 st.title("Zone-Circle-Division wise Import for August-2023")
 html_table =f"""
 <center>
