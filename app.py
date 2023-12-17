@@ -41,7 +41,7 @@ with right_column:
 st.markdown("""----""")
 #-----Data Preprocessing for Summary Report-----------------
 consumption_by_nocs = (
-    df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()[1:37]
+    df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()
 )
 consumption_by_nocs["Corrected_Consumption"]=consumption_by_nocs['Corrected_Consumption'].astype(int)
 
