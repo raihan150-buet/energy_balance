@@ -47,8 +47,8 @@ consumption_by_nocs = (
 # Assuming consumption_by_nocs is a DataFrame
 consumption_by_nocs["Corrected_Consumption"] = consumption_by_nocs["Corrected_Consumption"].astype(float)
 
-# Round up the values
-consumption_by_nocs["Corrected_Consumption"] = consumption_by_nocs["Corrected_Consumption"].apply(lambda x: math.ceil(x))
+# Round the values to two decimal points
+consumption_by_nocs["Corrected_Consumption"] = consumption_by_nocs["Corrected_Consumption"].apply(lambda x: round(x, 2))
 
 ### Reporting Engine Creation
 def create_download_link(val, filename):
