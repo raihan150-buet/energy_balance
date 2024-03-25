@@ -30,7 +30,7 @@ st.markdown("##")
 
 # TOP KPI's
 # consumption = int(df_selection["Consumption"].sum())
-consumption_corrected = float(df_selection["Corrected_Consumption"].sum())
+consumption_corrected = round(float(df_selection["Corrected_Consumption"].sum()))
 
 left_column,right_column = st.columns(2)
 with left_column:
@@ -43,7 +43,7 @@ st.markdown("""----""")
 consumption_by_nocs = (
     df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()
 )
-consumption_by_nocs["Corrected_Consumption"]=consumption_by_nocs['Corrected_Consumption'].astype(float)
+consumption_by_nocs["Corrected_Consumption"]=consumption_by_nocs['Corrected_Consumption'].astype(int)
 
 ### Reporting Engine Creation
 def create_download_link(val, filename):
