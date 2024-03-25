@@ -3,6 +3,7 @@ import plotly.express as px  # pip install plotly-express
 import streamlit as st  # pip install streamlit
 from fpdf import FPDF
 import base64
+import math
 
 st.set_page_config(page_title="Energy Balance Software", page_icon=":bar_chart:", layout="wide")
 
@@ -43,7 +44,11 @@ st.markdown("""----""")
 consumption_by_nocs = (
     df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()
 )
-consumption_by_nocs["Corrected_Consumption"]=consumption_by_nocs['Corrected_Consumption'].astype(int)
+# Assuming consumption_by_nocs is a DataFrame
+consumption_by_nocs["Corrected_Consumption"] = consumption_by_nocs["Corrected_Consumption"].astype(float)
+
+# Round up the values
+consumption_by_nocs["Corrected_Consumption"] = consumption_by_nocs["Corrected_Consumption"].apply(lambda x: math.ceil(x))
 
 ### Reporting Engine Creation
 def create_download_link(val, filename):
