@@ -24,7 +24,7 @@ def get_data_from_excel():
 df_selection = get_data_from_excel()
 month_list = ['Latest']+list(df_selection.columns)[13:]
 st.markdown("""---""")
-month_choice = st.selectbox("Please Select Month",ss_list)
+month_choice = st.selectbox("Please Select Month",month_list)
 st.markdown("""---""")
 if month_choice == 'Latest':
     df_selection = df_selection
