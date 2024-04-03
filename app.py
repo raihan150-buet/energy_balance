@@ -15,14 +15,22 @@ def get_data_from_excel():
         engine="openpyxl",
         sheet_name="Linked_11KV",
         skiprows=0,
-        usecols="B:P",
+        usecols="B:Z",
         nrows=1167,
     )
 
     return df
 
 df_selection = get_data_from_excel()
-
+month_list = ['Latest']+list(df_selection.columns)[13:]
+st.markdown("""---""")
+month_choice = st.selectbox("Please Select Month",ss_list)
+st.markdown("""---""")
+if month_choice == 'Latest':
+    df_selection = df_selection
+else:
+    df_selection["Consumption"] = df_selection[month_choice]
+    df_selection["Corrected_Consumption"] = df_selection[month_choice]
 
 
 # ---- MAINPAGE ----
