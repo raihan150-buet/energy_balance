@@ -22,15 +22,15 @@ def get_data_from_excel():
     return df
 
 df_selection = get_data_from_excel()
-month_list = ['Latest']+list(df_selection.columns)[13:]
-st.markdown("""---""")
-month_choice = st.selectbox("Please Select Month",month_list)
-st.markdown("""---""")
-if month_choice == 'Latest':
-    df_selection = df_selection
-else:
-    df_selection["Consumption"] = df_selection[month_choice]
-    df_selection["Corrected_Consumption"] = df_selection[month_choice]
+# month_list = ['Latest']+list(df_selection.columns)[13:]
+# st.markdown("""---""")
+# month_choice = st.selectbox("Please Select Month",month_list)
+# st.markdown("""---""")
+# if month_choice == 'Latest':
+#     df_selection = df_selection
+# else:
+#     df_selection["Consumption"] = df_selection[month_choice]
+#     df_selection["Corrected_Consumption"] = df_selection[month_choice]
 
 
 # ---- MAINPAGE ----
