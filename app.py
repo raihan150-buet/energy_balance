@@ -188,7 +188,7 @@ def map_nocs(row):
 consumption_by_nocs[["Circle", "Zone"]] = consumption_by_nocs.apply(map_nocs, axis=1)
 
 # -----------Templace Creation------------------
-st.title("Zone-Circle-Division wise Import for August-2023")
+st.title("Zone-Circle-Division wise Import for February-2024")
 html_table =f"""
 <center>
 <table class="tg" bgcolor="#063970">
