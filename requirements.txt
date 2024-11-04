@@ -1,4 +1,4 @@
-openpyxl == 3.0.10
+openpyxl == 3.1.0
 plotly.express
 fpdf == 1.7.2
 streamlit == 1.12.0
