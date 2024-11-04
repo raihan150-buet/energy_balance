@@ -16,7 +16,7 @@ def get_data_from_excel():
         sheet_name="Linked_11KV",
         skiprows=0,
         usecols="B:Z",
-        nrows=1167,
+        nrows=1226,
     )
 
     return df
