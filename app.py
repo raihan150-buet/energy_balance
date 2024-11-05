@@ -6,7 +6,7 @@ import base64
 import math
 
 st.set_page_config(page_title="Energy Balance Software", page_icon=":bar_chart:", layout="wide")
-
+reporting_month = "September-2024"
 # ---- READ EXCEL ----
 @st.cache
 def get_data_from_excel():
@@ -188,7 +188,7 @@ def map_nocs(row):
 consumption_by_nocs[["Circle", "Zone"]] = consumption_by_nocs.apply(map_nocs, axis=1)
 
 # -----------Templace Creation------------------
-st.title("Zone-Circle-Division wise Import for February-2024")
+st.title("Zone-Circle-Division wise Import for "+reporting_month)
 html_table =f"""
 <center>
 <table class="tg" bgcolor="#063970">
