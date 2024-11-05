@@ -53,7 +53,7 @@ consumption_by_nocs = (
     df_selection.groupby(by=["NOCS"])["Corrected_Consumption"].sum().reset_index()
 )
 # Assuming consumption_by_nocs is a DataFrame
-consumption_by_nocs["Corrected_Consumption"] = consumption_by_nocs["Corrected_Consumption"].astype(float)
+consumption_by_nocs["Corrected_Consumption"] = consumption_by_nocs["Corrected_Consumption"].round()
 
 # Round the values to two decimal points
 consumption_by_nocs["Corrected_Consumption"] = consumption_by_nocs["Corrected_Consumption"].apply(lambda x: round(x, 2))
