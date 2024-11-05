@@ -22,6 +22,7 @@ def get_data_from_excel():
     return df
 
 df_selection = get_data_from_excel()
+df_selection = df_selection.drop(df_selection[df_selection['NOCS']==0].index)
 # month_list = ['Latest']+list(df_selection.columns)[13:]
 # st.markdown("""---""")
 # month_choice = st.selectbox("Please Select Month",month_list)
